@@ -9,7 +9,9 @@ RUN yum install -y \
     tar \
     curl \
     patch \
-    xz
+    xz \
+    perl-interpreter \
+    perl
 RUN mkdir -p \
     /lib \
     /lib/$(uname -m)-linux-gnu \
@@ -20,16 +22,16 @@ RUN mkdir -p \
     /usr/local/lib \
     /usr/local/lib64
 RUN mkdir /perl
-RUN curl -fsSL https://github.com/skaji/relocatable-perl/releases/download/5.36.0.0/perl-$(uname -m)-linux.tar.xz | tar xJf - --strip-components 1 -C /perl
+#RUN curl -fsSL https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz | tar xJf - --strip-components 1 -C /perl
 RUN curl -fsSL --compressed -o /cpm https://raw.githubusercontent.com/skaji/cpm/main/cpm
 COPY build/relocatable-perl-build build/cpm.yml BUILD_VERSION /
-RUN /perl/bin/perl /cpm install -g
-RUN /perl/bin/perl /relocatable-perl-build --perl_version $(cat /BUILD_VERSION) --prefix /opt/perl
+RUN /usr/bin/perl /cpm install -g
+RUN /usr/bin/perl /relocatable-perl-build --perl_version $(cat /BUILD_VERSION) --prefix /opt/perl
 RUN /opt/perl/bin/perl /cpm install -g App::cpanminus App::ChangeShebang
 RUN /opt/perl/bin/change-shebang -f /opt/perl/bin/*
 RUN set -eux; \
   cd /tmp; \
-  _ARCHNAME=$(if [[ $(uname -m) = x86_64 ]]; then echo amd64; else echo arm64; fi); \
+  _ARCHNAME=$(uname -m); \
   cp -r /opt/perl perl-linux-$_ARCHNAME; \
   tar cf perl-linux-$_ARCHNAME.tar perl-linux-$_ARCHNAME; \
   gzip -9 --stdout perl-linux-$_ARCHNAME.tar > /perl-linux-$_ARCHNAME.tar.gz; \
