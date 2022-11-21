@@ -16,6 +16,16 @@ jobs:
         with:
           name: linux-amd64
           path: linux-amd64
+  linux-ppc64le:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: podman build --build-arg IMAGE=ubi/ubi8 -t skaji/relocatable-perl -f build/Dockerfile .
+      - run: bash build/github-actions.sh linux_ppc64le_create_artifactos
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux-ppc64le
+          path: linux-ppc64le
   linux-arm64:
     runs-on: ubuntu-latest
     steps:
@@ -46,6 +56,7 @@ jobs:
       - linux-amd64
       - linux-arm64
       - darwin-amd64
+      - linux-ppc64le
     steps:
       - uses: actions/download-artifact@v2
         with:
@@ -59,6 +70,10 @@ jobs:
         with:
           name: darwin-amd64
           path: darwin-amd64
+      - uses: actions/download-artifact@v2
+        with:
+          name: linux-ppc64le
+          path: linux-ppc64le
       - uses: actions/create-release@v1
         id: create_release
         env:
@@ -81,6 +96,22 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: linux-amd64/perl-linux-amd64.tar.xz
           asset_name: perl-linux-amd64.tar.xz
+          asset_content_type: application/x-xz
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: linux-ppc64le/perl-linux-ppc64le.tar.gz
+          asset_name: perl-linux-ppc64le.tar.gz
+          asset_content_type: application/gzip
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: linux-ppc64le/perl-linux-ppc64le.tar.xz
+          asset_name: perl-linux-ppc64le.tar.xz
           asset_content_type: application/x-xz
       - uses: actions/upload-release-asset@v1
         env:
