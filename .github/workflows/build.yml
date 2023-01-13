@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: podman build --build-arg IMAGE=condaforge/linux-anvil-ppc64le -t skaji/relocatable-perl-ppc -f build/Dockerfile .
+      - run: podman build --build-arg IMAGE=registry.access.redhat.com/ubi8/ubi:8.5-214 -t skaji/relocatable-perl-ppc -f build/Dockerfile .
       - run: bash build/github-actions.sh linux_ppc64le_create_artifacts
       - uses: actions/upload-artifact@v2
         with:

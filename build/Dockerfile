@@ -2,7 +2,7 @@ ARG IMAGE
 FROM $IMAGE
 ARG IMAGE
 
-RUN if [[ $IMAGE = centos:centos6 ]]; then sed -i 's/^#baseurl=/baseurl=/g; s/^mirrorlist=/#mirrorlist=/g; s/http:\/\/mirror.centos.org/https:\/\/vault.centos.org/g' /etc/yum.repos.d/CentOS-Base.repo; fi
+#RUN if [[ $IMAGE = centos:centos6 ]]; then sed -i 's/^#baseurl=/baseurl=/g; s/^mirrorlist=/#mirrorlist=/g; s/http:\/\/mirror.centos.org/https:\/\/vault.centos.org/g' /etc/yum.repos.d/CentOS-Base.repo; fi
 RUN yum install -y \
     gcc \
     make \
