@@ -31,7 +31,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: linux-ppc64le
-          path: linux-ppc64le
+          path: linux-ppc64le-built
 
   linux-arm64:
     runs-on: ubuntu-latest
