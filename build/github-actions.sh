@@ -50,10 +50,11 @@ linux_arm64_create_artifacts() {
 }
 
 linux_ppc64le_create_artifacts() {
-  mkdir linux-ppc64le-built
+  mkdir linux-ppc64le
+  podman images
   ID=$(podman create --platform linux/ppc64le skaji/relocatable-perl)
-  podman cp $ID:/perl-linux-ppc64le.tar.gz linux-ppc64le-built/
-  podman cp $ID:/perl-linux-ppc64le.tar.xz linux-ppc64le-built/
+  podman cp $ID:/perl-linux-ppc64le.tar.gz linux-ppc64le/
+  podman cp $ID:/perl-linux-ppc64le.tar.xz linux-ppc64le/
   podman rm $ID
 }
 
