@@ -10,6 +10,8 @@ RUN yum install -y \
     curl \
     patch \
     xz
+RUN if [[ $(uname -m) == "ppc64le" ]]; then yum install -y perl-interpreter perl; fi
+
 RUN mkdir -p \
     /lib \
     /lib/$(uname -m)-linux-gnu \
@@ -28,9 +30,9 @@ RUN /opt/perl/bin/perl /cpm install -g App::cpanminus App::ChangeShebang
 RUN /opt/perl/bin/change-shebang -f /opt/perl/bin/*
 RUN set -eux; \
   cd /tmp; \
-  _ARCHNAME=$(if [[ $(uname -m) = x86_64 ]]; then echo amd64; else echo arm64; fi); \
+  echo $(uname -m); \
   cp -r /opt/perl perl-linux-$_ARCHNAME; \
   tar cf perl-linux-$_ARCHNAME.tar perl-linux-$_ARCHNAME; \
   gzip -9 --stdout perl-linux-$_ARCHNAME.tar > /perl-linux-$_ARCHNAME.tar.gz; \
   xz   -9 --stdout perl-linux-$_ARCHNAME.tar > /perl-linux-$_ARCHNAME.tar.xz; \
-  :
+

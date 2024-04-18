@@ -27,6 +27,11 @@ if [[ $_ARCH = aarch64 ]]; then
   _ARCH=arm64
 fi
 
+if [[ $_ARCH = ppc64le ]]; then
+  /usr/bin/perl /cpm install -g
+  /usr/bin/perl /relocatable-perl-build --perl_version $(cat /BUILD_VERSION) --prefix /opt/perl
+else
+
 if type curl &>/dev/null; then
   HTTP_GET=curl
   HTTP_GET_OPTION='-fsSL'
@@ -78,6 +83,8 @@ echo "Installing perl $LATEST_VERSION to $INSTALL_DIR, this may take a while..."
 $HTTP_GET $HTTP_GET_OPTION $LATEST_URL | $TAR_CMD $TAR_OPTION - --strip-components 1 -C $INSTALL_DIR
 if [[ ! -f $INSTALL_DIR/bin/perl ]]; then
   die "Failed to install perl"
+fi
+
 fi
 
 cat <<EOF
