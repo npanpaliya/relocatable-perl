@@ -19,7 +19,7 @@ RUN mkdir -p \
     /usr/lib64 \
     /usr/local/lib \
     /usr/local/lib64
-RUN curl -fsSL https://raw.githubusercontent.com/skaji/relocatable-perl/main/perl-install | bash -s /perl
+RUN curl -fsSL https://raw.githubusercontent.com/npanpaliya/relocatable-perl/ppc64le/perl-install | bash -s /perl
 RUN curl -fsSL --compressed -o /cpm https://raw.githubusercontent.com/skaji/cpm/main/cpm
 COPY build/relocatable-perl-build build/cpm.yml BUILD_VERSION /
 RUN /perl/bin/perl /cpm install -g
