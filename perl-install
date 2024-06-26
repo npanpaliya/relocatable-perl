@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -exu
 
 die() {
   echo "$1" >&2
@@ -21,7 +21,6 @@ install_from_cpan() {
 
 }
 
-
 if [[ $# -ne 1 ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
   die "Usage:
   perl-install INSTALL_DIR      # install latest perl to INSTALL_DIR
@@ -35,7 +34,6 @@ fi
 
 _OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 _ARCH=$(uname -m)
-echo "Arch: $_ARCH"
 
 if [[ $_ARCH = x86_64 ]]; then
   _ARCH=amd64
@@ -43,8 +41,6 @@ fi
 if [[ $_ARCH = aarch64 ]]; then
   _ARCH=arm64
 fi
-
-echo "Architecture: $_ARCH"
 
 
 if type curl &>/dev/null; then
