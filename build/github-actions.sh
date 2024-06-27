@@ -53,18 +53,18 @@ linux_arm64_create_artifacts() {
 
 linux_ppc64le_create_artifacts() {
   mkdir linux-ppc64le
-  ID=$(docker create --platform linux/ppc64le skaji/relocatable-perl-ppc64le)
-  docker cp $ID:/perl-linux-ppc64le.tar.gz linux-ppc64le/
-  docker cp $ID:/perl-linux-ppc64le.tar.xz linux-ppc64le/
-  docker rm $ID
+  ID=$(podman create --platform linux/ppc64le skaji/relocatable-perl-ppc64le)
+  podman cp $ID:/perl-linux-ppc64le.tar.gz linux-ppc64le/
+  podman cp $ID:/perl-linux-ppc64le.tar.xz linux-ppc64le/
+  podman rm $ID
 }
 
 linux_s390x_create_artifacts() {
   mkdir linux-s390x
   ID=$(podman create --platform linux/s390x skaji/relocatable-perl-ppc64le)
-  docker cp $ID:/perl-linux-s390x.tar.gz linux-s390x/
-  docker cp $ID:/perl-linux-s390x.tar.xz linux-s390x/
-  docker rm $ID
+  podman cp $ID:/perl-linux-s390x.tar.gz linux-s390x/
+  podman cp $ID:/perl-linux-s390x.tar.xz linux-s390x/
+  podman rm $ID
 }
 
 case "$1" in
