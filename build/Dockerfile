@@ -28,7 +28,7 @@ RUN /opt/perl/bin/perl /cpm install -g App::cpanminus App::ChangeShebang
 RUN /opt/perl/bin/change-shebang -f /opt/perl/bin/*
 RUN set -eux; \
   cd /tmp; \
-  _ARCHNAME=$(if [[ $(uname -m) = x86_64 ]]; then echo amd64; elif [[ $_ARCH = aarch64 ]]; then echo arm64; else echo $(uname -m); fi); \
+  _ARCHNAME=$(if [[ $(uname -m) = x86_64 ]]; then echo amd64; elif [[ $(uname -m) = aarch64 ]]; then echo arm64; else echo $(uname -m); fi); \
   cp -r /opt/perl perl-linux-$_ARCHNAME; \
   tar cf perl-linux-$_ARCHNAME.tar perl-linux-$_ARCHNAME; \
   gzip -9 --stdout perl-linux-$_ARCHNAME.tar > /perl-linux-$_ARCHNAME.tar.gz; \
